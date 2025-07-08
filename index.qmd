@@ -1,0 +1,92 @@
+---
+title: "income inequlaity model"
+author: Naveed Ahmad
+execute: 
+  echo: false
+
+---
+
+```{r}
+#| message: false
+#| warning: false
+#| results: 'hide'
+library(tidycensus)
+library(tidyverse)
+library(ggrepel)
+library(plotly)
+```
+
+```{r}
+#| message: false
+#| warning: false
+multi_vars <- c(
+  gini = "B19083_001",
+  median_income = "B19013_001",
+  poverty = "B17001_002")
+
+  socio_data <- get_acs(
+  geography = "state",
+  variables = multi_vars,
+  year = 2020,
+  survey = "acs5",
+  output = "wide")
+
+  socio_clean <- socio_data |> 
+  transmute(
+    state = NAME,
+    gini = giniE,
+    median_income = median_incomeE,
+    poverty = povertyE)
+```
+
+```{r}
+#| message: false
+#| warning: false
+# Build interactive plot
+plot_ly(socio_clean,
+  x = ~median_income,
+  y = ~gini,
+  type = "scatter",
+  mode = "markers",
+  text = ~paste(
+    "<b>State:</b>", state,
+    "<br><b>Gini Index:</b>", round(gini, 3),
+    "<br><b>Median Income:</b> $", formatC(median_income, format = "d", big.mark = ""),
+    "<br><b>Poverty:</b>", formatC(poverty, format = "d", big.mark = ",")),
+  hoverinfo = "text",
+  marker = list(
+    size = ~sqrt(poverty) / 40,  # Adjusted for visual scale
+    color = ~gini,
+    colorscale = "Blues",
+    showscale = TRUE,
+    line = list(width = 1, color = "#FFFFFF"))) %>%
+  layout(
+    title = "Income Inequality vs Median Income (Interactive)",
+    xaxis = list(title = "Median Household Income (USD)"),
+    yaxis = list(title = "Gini Index"),
+    hoverlabel = list(bgcolor = "white", font = list(size = 12)))
+```
+
+
+## Mathematical Model
+The structure of our linear regression model is:
+
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon
+$$
+
+The estimated linear regression model is:
+
+$$
+\hat{Y} = 0.6513 - 0.0284 \cdot \log(\text{Median Income}) + 0.0098 \cdot \log(\text{Poverty})
+$$
+
+This means:
+- A 1% increase in **median income** is associated with a **0.0284 unit decrease** in the Gini Index.
+- A 1% increase in **poverty population** is associated with a **0.0098 unit increase** in the Gini Index.
+
+```{r}
+model <- lm(gini ~ log(median_income) + log(poverty), data = socio_clean)
+summary(model)
+```
+
