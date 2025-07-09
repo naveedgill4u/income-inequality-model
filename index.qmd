@@ -12,8 +12,11 @@ execute:
 #| results: 'hide'
 library(tidycensus)
 library(tidyverse)
+library(tidymodels)
+library(broom)
 library(ggrepel)
 library(plotly)
+library(marginaleffects)
 ```
 
 ```{r}
@@ -68,25 +71,35 @@ plot_ly(socio_clean,
 ```
 
 
-## Mathematical Model
-The structure of our linear regression model is:
+
+## Model
 
 $$
-Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_n X_n + \epsilon
 $$
+
+with $\epsilon \sim \mathcal{N}(0, \sigma^2)$.
+
 
 The estimated linear regression model is:
-
 $$
-\hat{Y} = 0.6513 - 0.0284 \cdot \log(\text{Median Income}) + 0.0098 \cdot \log(\text{Poverty})
+\hat{gini} = 0.65 - 0.03 \cdot \log(\text{median\_income}) + 0.01 \cdot \log(\text{poverty})
 $$
 
-This means:
-- A 1% increase in **median income** is associated with a **0.0284 unit decrease** in the Gini Index.
-- A 1% increase in **poverty population** is associated with a **0.0098 unit increase** in the Gini Index.
 
 ```{r}
-model <- lm(gini ~ log(median_income) + log(poverty), data = socio_clean)
-summary(model)
+Income_ineq_model <- linear_reg(engine = "lm") |> 
+   fit(gini ~ log(median_income) + log(poverty), data = socio_clean)
+  
 ```
 
+```{r}
+plot_predictions(Income_ineq_model, by = "median_income")
+print(plot_predictions)
+```
+
+
+```{r}
+plot_predictions(Income_ineq_model, by = "poverty")
+print(plot_predictions)
+```
