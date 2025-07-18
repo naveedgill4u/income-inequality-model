@@ -2,12 +2,16 @@ project:
   type: website
 
 website:
-  title: "income inequlaity model"
+  title: ""
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
+      - href: analysis.qmd
+        text: Analysis
+      - href: source.qmd
+        text: Source
 
 format:
   html:

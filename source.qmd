@@ -1,0 +1,12 @@
+---
+title: "Source"
+author: Naveed Ahmad
+format: html
+---
+
+<div style="text-align: justify;">The data for analysis of income inequality in this project is used from[*Gini Index U.S. Census Bureau. 2022, ACS 5-Year Estimates*](https://data.census.gov.). Gni Index, Table B19083 contains data of Income Inequality in U.S. Census Burea collects data through American Community Survey. ACS data is available on yearly basis survey and five year basis survey. I am deeply thankful to ** Preceptor ** for organizing [*Free Data Science Camp*](https://www.free-datacamp.org/) and guiding to access data from American Community Survey for using in this project.
+ 
+You can approach to me through email[Naveed Ahmad](naveedgill4u@yahoo.com). You can also visit me at [Git hub](https://github.com/naveedgill4u) to see my work about Data Analysis.
+
+To see more about Icome Inequality project, swith to home tag above.
+</div> 

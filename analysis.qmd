@@ -1,0 +1,13 @@
+---
+title: "Analysis"
+author: Naveed Ahmad
+format: html
+---
+
+<div style="text-align: justify;"> Two types of analysis have been conducted in this project. First Explenatory Data Analysis (EDA) and second pobability model for prediction of income inequality with midean income and education.
+
+Analysis start with question. In EDA questions were; was there income inequality in U.Sin 2020? was there relationship between income inequality and median income in U.S in 2020? Further, was there relationship between income inequality and education in U.S in 2020?
+
+In second part, model was build to predict the income inequality in U.S with covariates median income and education.
+
+Preceptor table was drawn keeping in view outcome variables. The code may be seen in index file. However, Preceptor table was as :
