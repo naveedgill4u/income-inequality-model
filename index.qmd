@@ -1,5 +1,5 @@
 ---
-title: "income inequlaity model"
+title: "income inequlaity"
 author: Naveed Ahmad
 execute: 
   echo: false
@@ -42,6 +42,7 @@ multi_vars <- c(
     poverty = povertyE)
 ```
 
+## Explanatory Plot
 ```{r}
 #| message: false
 #| warning: false
@@ -64,13 +65,18 @@ plot_ly(socio_clean,
     showscale = TRUE,
     line = list(width = 1, color = "#FFFFFF"))) %>%
   layout(
-    title = "Income Inequality vs Median Income (Interactive)",
+    title = "Income Inequality vs Median Income & Poverty (Interactive)",
     xaxis = list(title = "Median Household Income (USD)"),
     yaxis = list(title = "Gini Index"),
-    hoverlabel = list(bgcolor = "white", font = list(size = 12)))
+    hoverlabel = list(bgcolor = "white", font = list(size = 12))) 
+      
 ```
 
+## Description
+<div style="text-align: justify;">The bubble chart visualizes the relationship between median household income and the Gini Index —an established measure of income inequality— in U.S., based on ACS 2016–2020 data. Each bubble represents a state, with its horizontal position indicating the median household income (in USD) and its vertical position showing the Gini Index value. Bubble size  reflects povertly level in each state, while color intensity (shades of blue) corresponds to Gini Index values, with darker hues representing lesse income inequality.
 
+This chart provides a clear and interactive way to understand that income inequlaity was prevelent in U.S in 2020 as per ACS 2020 data.
+</div> 
 
 ## Model
 The liner regression model is:
