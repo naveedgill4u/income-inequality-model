@@ -8,6 +8,95 @@ format: html
 
 Analysis start with question. In EDA questions were; was there income inequality in U.S in 2020? was there relationship between income inequality and, median income and poverty in U.S in 2020? 
 
+EDA clearly depicts that income inequlaity was above 0.4 in all states of U.S. Further, there was postive relationship between income inequality and median income and negative relationship between income inequality and education.</div>
+
+## Normality Test
+<div style="text-align: justify;">Recommended test, Histogram and Saphiro Tes  for data normality were performed for median income and poverty</div>
+
+## Median Income
+# Histogram:
+Histogram showed that distribution of median income was skewd to left. 
+```{r}
+med_in <- socio_clean |>
+  select(state, median_income)
+
+ggplot(med_in, aes(x = median_income)) +
+  geom_histogram(binwidth = 5000, fill = "steelblue", color = "black") +
+  labs(
+    title = "Histogram of Median Income by State",
+    x = "Median Income (USD)",
+    y = "Number of States"
+  ) +
+  theme_minimal()
+```
+
+Then recommeded log transformation method was applied:
+
+```{r}
+# Step 1: Reflect the values
+max_val_med_in <- max(med_in$median_income)
+reflected <- max_val_med_in + 1 - med_in_data$median_income
+
+# Step 2: Apply log transformation to the reflected data
+log_transformed <- log(reflected)
+
+# Plot histogram of the log-transformed data
+hist(log_transformed,
+     main = "Histogram of Log-Transformed Median Income by State",
+     xlab = "Transformed Median Income",
+     col = "skyblue",
+     border = "black")
+```
+
+<div style="text-align: justify;">But still distribution was skewed to left. The reason of skewness was an outlier in data. As, in case of state, Puerto Rico, the value of Gini Index was the highest more than 0.54 and median income was the smallest $ 21,058 only.</div>
+
+# Shapiro
+Then Shapiro test for checking data normality was used
+```{r}
+# Data Normality test
+med_in_data <- socio_clean |>
+select(median_income)
+shapiro.test(med_in_data$median_income)
+
+shapiro.test()
+```
+
+<div style="text-align: justify;">The results showed that P value was meagerly high and W walue was near to 1, hence, the data may reasonabily be consided normal. Thus, the data of median income was considered as it was.</div>
+
+## Poverty
+# Histogram:
+Histogram showed that distribution of poverty was skewd to right.
+```{r}
+pov <- socio_clean |>
+  select(poverty) |>
+  pull() 
+
+hist(pov,
+     main = "Histogram of Poverty Counts",
+     xlab = "Number of People in Poverty",
+     col = "skyblue",
+     border = "black",
+     xaxt = "n")
+# Add formatted x-axis with commas
+axis(1, at = axTicks(1), labels = format(axTicks(1), big.mark = ",")) 
+```
+
+Then recommeded log transformation method was applied
+
+```{r}
+# Apply log10 transformation
+log_pov <- log10(pov)
+
+# Plot histogram of transformed data
+hist(log_pov,
+     main = "Histogram of Log10(Poverty Counts)",
+     xlab = "Log10(Number of People in Poverty)",
+     col = "lightgreen",
+     border = "black")
+```
+
+<div style="text-align: justify;">But still distribution was skewed to right. The reason of skewness was an outlier in data. As, in case of state, Puerto Rico, the value of Gini Index was the highest more than 0.54 and median income was the smallest $ 21,058 only.</div>
+
 In second part, model was build to predict the income inequality in U.S with covariates median income and poverty.
 
 Preceptor table was drawn keeping in view outcome variables. The code may be seen in index file. However, Preceptor table was as :

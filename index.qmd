@@ -73,10 +73,24 @@ plot_ly(socio_clean,
 ```
 
 ## Description
-<div style="text-align: justify;">The bubble chart visualizes the relationship between median household income and the Gini Index —an established measure of income inequality— in U.S., based on ACS 2016–2020 data. Each bubble represents a state, with its horizontal position indicating the median household income (in USD) and its vertical position showing the Gini Index value. Bubble size  reflects povertly level in each state, while color intensity (shades of blue) corresponds to Gini Index values, with darker hues representing lesse income inequality.
+<div style="text-align: justify;">The bubble chart visualizes the relationship between median household income and the Gini Index —an established measure of income inequality— in U.S., based on ACS 2016–2020 data. Each bubble represents a state, with its horizontal position indicating the median household income (in USD) and its vertical position showing the Gini Index value. Bubble size  reflects median income, gini index, and povertly level in each state, while color intensity (shades of blue) corresponds to Gini Index values, with darker hues representing lesse income inequality.
 
 This chart provides a clear and interactive way to understand that income inequlaity was prevelent in U.S in 2020 as per ACS 2020 data.
 </div> 
+
+```{r}
+pov <- socio_clean |>
+  select(poverty) |>
+  pull() 
+log_pov <- log10(pov)
+
+# Plot histogram of transformed data
+hist(log_pov,
+     main = "Histogram of Log10(Poverty Counts)",
+     xlab = "Log10(Number of People in Poverty)",
+     col = "lightgreen",
+     border = "black")
+```
 
 ## Model
 The liner regression model is:
